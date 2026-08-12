@@ -1,5 +1,5 @@
 import './styles.css';
-import { createGame, movePaddle, step, WIDTH, HEIGHT, type Phase } from './game';
+import { createGame, movePaddle, setPaddleCenter, step, WIDTH, HEIGHT, type Phase } from './game';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#gameCanvas')!;
 const context = canvas.getContext('2d')!;
@@ -61,8 +61,7 @@ bindMove('#right', 1);
 window.addEventListener('keydown', handleKey);
 canvas.addEventListener('pointermove', (event) => {
   const bounds = canvas.getBoundingClientRect();
-  game.paddle.x = Math.max(0, Math.min(WIDTH - game.paddle.width,
-    (event.clientX - bounds.left) * WIDTH / bounds.width - game.paddle.width / 2));
+  setPaddleCenter(game, (event.clientX - bounds.left) * WIDTH / bounds.width);
 });
 
 function loop() {

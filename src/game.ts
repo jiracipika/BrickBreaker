@@ -30,7 +30,11 @@ export function createGame(): Game {
 }
 
 export function movePaddle(game: Game, direction: number): void {
-  game.paddle.x = Math.max(0, Math.min(WIDTH - game.paddle.width, game.paddle.x + direction * 24));
+  setPaddleCenter(game, game.paddle.x + game.paddle.width / 2 + direction * 24);
+}
+
+export function setPaddleCenter(game: Game, centerX: number): void {
+  game.paddle.x = Math.max(0, Math.min(WIDTH - game.paddle.width, centerX - game.paddle.width / 2));
   if (game.phase === 'ready') game.ball.x = game.paddle.x + game.paddle.width / 2;
 }
 

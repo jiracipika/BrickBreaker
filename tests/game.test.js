@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createGame, movePaddle, step, WIDTH, HEIGHT } from '../.test-build/game.js';
+import { createGame, movePaddle, setPaddleCenter, step, WIDTH, HEIGHT } from '../.test-build/game.js';
 
 test('paddle movement remains inside the board', () => {
   const game = createGame();
@@ -8,6 +8,23 @@ test('paddle movement remains inside the board', () => {
   assert.equal(game.paddle.x, 0);
   for (let i = 0; i < 100; i += 1) movePaddle(game, 1);
   assert.equal(game.paddle.x, WIDTH - game.paddle.width);
+});
+
+test('pointer-style movement keeps a waiting ball attached to the paddle', () => {
+  const game = createGame();
+  setPaddleCenter(game, 123);
+  assert.equal(game.paddle.x + game.paddle.width / 2, 123);
+  assert.equal(game.ball.x, 123);
+
+  setPaddleCenter(game, -100);
+  assert.equal(game.paddle.x, 0);
+  assert.equal(game.ball.x, game.paddle.width / 2);
+
+  game.phase = 'playing';
+  const launchedX = game.ball.x;
+  setPaddleCenter(game, WIDTH);
+  assert.equal(game.paddle.x, WIDTH - game.paddle.width);
+  assert.equal(game.ball.x, launchedX);
 });
 
 test('missing the paddle ends the game', () => {
