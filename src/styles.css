@@ -1,0 +1,13 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #0f172a; color: #f8fafc; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+#app { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 1rem; }
+h1 { margin: .25rem 0; }
+#instructions { margin: .25rem 0 1rem; text-align: center; }
+.game-status { width: min(800px, 100%); display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem; }
+canvas { width: min(800px, 100%); height: auto; aspect-ratio: 4 / 3; background: #020617; border: 2px solid #94a3b8; touch-action: none; }
+canvas:focus-visible, button:focus-visible { outline: 4px solid #fbbf24; outline-offset: 3px; }
+.controls { display: flex; gap: .75rem; margin-top: 1rem; }
+button { min-width: 7rem; min-height: 3rem; border: 2px solid #cbd5e1; border-radius: .4rem; background: #1e40af; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+button:hover { background: #1d4ed8; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }

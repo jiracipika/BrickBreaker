@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brick Breaker</title>
   </head>
-  <body class="bg-gray-900">
-    <div id="app" class="min-h-screen flex flex-col items-center p-4">
-      <h1 class="text-2xl text-white mb-4">Brick Breaker</h1>
-      <div id="score" class="text-xl text-white mb-4">Score: 0</div>
-      <canvas id="gameCanvas" width="800" height="600"></canvas>
-    </div>
+  <body>
+    <main id="app">
+      <h1>Brick Breaker</h1>
+      <p id="instructions">Move with Left/Right or A/D. Press Space to start or pause.</p>
+      <div class="game-status" aria-live="polite" aria-atomic="true">
+        <span id="score">Score: 0</span>
+        <span id="state">Ready</span>
+      </div>
+      <canvas id="gameCanvas" width="800" height="600" tabindex="0"
+        aria-label="Brick Breaker game. Use Left and Right arrow keys to move the paddle."
+        aria-describedby="instructions"></canvas>
+      <div class="controls">
+        <button id="left" type="button" aria-label="Move paddle left">◀ Left</button>
+        <button id="toggle" type="button">Start</button>
+        <button id="right" type="button" aria-label="Move paddle right">Right ▶</button>
+      </div>
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
