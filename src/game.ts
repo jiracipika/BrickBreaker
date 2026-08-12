@@ -67,7 +67,17 @@ export function step(game: Game): 'won' | 'lost' | 'brick' | null {
   const brick = game.bricks.find((candidate) => candidate.active && overlaps(ball, candidate));
   if (brick) {
     brick.active = false;
-    ball.dy *= -1;
+    // Reflect off the axis of least penetration so side hits bounce
+    // horizontally and top/bottom hits bounce vertically (not always dy).
+    const brickCenterX = brick.x + brick.width / 2;
+    const brickCenterY = brick.y + brick.height / 2;
+    const overlapX = brick.width / 2 + ball.radius - Math.abs(ball.x - brickCenterX);
+    const overlapY = brick.height / 2 + ball.radius - Math.abs(ball.y - brickCenterY);
+    if (overlapX < overlapY) {
+      ball.dx *= -1;
+    } else {
+      ball.dy *= -1;
+    }
     game.score += 10;
     if (game.bricks.every((candidate) => !candidate.active)) {
       game.phase = 'won';
