@@ -25,7 +25,7 @@ A modern implementation of the classic Brick Breaker game built with TypeScript 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/brick-breaker.git
+git clone https://github.com/jiracipika/BrickBreaker.git
 ```
 
 2. Navigate to the project directory:
