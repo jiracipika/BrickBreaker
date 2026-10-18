@@ -1,5 +1,6 @@
 import './styles.css';
 import { createGame, movePaddle, setPaddleCenter, step, WIDTH, HEIGHT, type Phase } from './game';
+import { announcePhase, initShellMotion } from './motion';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#gameCanvas')!;
 const context = canvas.getContext('2d')!;
@@ -7,6 +8,7 @@ const score = document.querySelector<HTMLElement>('#score')!;
 const state = document.querySelector<HTMLElement>('#state')!;
 const toggle = document.querySelector<HTMLButtonElement>('#toggle')!;
 let game = createGame();
+let lastPhase: Phase = game.phase;
 
 function labelPhase(): string {
   const labels: Record<Phase, string> = {
@@ -31,6 +33,10 @@ function render() {
   score.textContent = `Score: ${game.score}`;
   state.textContent = labelPhase();
   toggle.textContent = game.phase === 'playing' ? 'Pause' : game.phase === 'paused' ? 'Resume' : 'Start';
+  if (game.phase !== lastPhase) {
+    lastPhase = game.phase;
+    announcePhase(game.phase);
+  }
 }
 
 function toggleGame() {
@@ -70,4 +76,5 @@ function loop() {
   requestAnimationFrame(loop);
 }
 render();
+initShellMotion();
 requestAnimationFrame(loop);
