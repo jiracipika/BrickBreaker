@@ -70,11 +70,27 @@ canvas.addEventListener('pointermove', (event) => {
   setPaddleCenter(game, (event.clientX - bounds.left) * WIDTH / bounds.width);
 });
 
-function loop() {
-  step(game);
+// Fixed-timestep simulation: step() advances one 60Hz tick, so game speed is
+// identical on 60/120/144Hz+ displays. Rendering stays per-frame; simulation
+// catches up in bounded bursts after tab-switch stalls (no spiral of death).
+const TICK_MS = 1000 / 60;
+const MAX_CATCH_UP_TICKS = 5;
+let accumulator = 0;
+let lastFrame = performance.now();
+
+function loop(now: number) {
+  accumulator += Math.min(now - lastFrame, MAX_CATCH_UP_TICKS * TICK_MS);
+  lastFrame = now;
+  while (accumulator >= TICK_MS) {
+    step(game);
+    accumulator -= TICK_MS;
+  }
   render();
   requestAnimationFrame(loop);
 }
 render();
 initShellMotion();
-requestAnimationFrame(loop);
+requestAnimationFrame((now) => {
+  lastFrame = now;
+  requestAnimationFrame(loop);
+});
